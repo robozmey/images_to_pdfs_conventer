@@ -2,26 +2,28 @@ import os
 import shutil
 import sys, getopt
 from fpdf import FPDF
+import img2pdf
 
 
 def get_opts():
     opts, _ = getopt.getopt(sys.argv[1:], 'st:rp')
     return opts
 
+
 def get_suffix():
     opts = get_opts()
     for opt, arg in opts:
         if opt == '-s':
-            return arg
+            return '_' + arg
     return ''
 
 
 def get_new_filenames():
     file_fio = open('фио.txt', encoding='utf-8', mode='r')
-    fios = file_fio.read().split('\n')
+    fios = list(filter(lambda x: x != '', file_fio.read().split('\n')))
 
     grade_fio = open('классы.txt', encoding='utf-8', mode='r')
-    grades = grade_fio.read().split('\n')
+    grades = list(filter(lambda x: x != '', grade_fio.read().split('\n')))
 
     new_filenames = []
     count_of_students = len(fios)
@@ -29,6 +31,11 @@ def get_new_filenames():
         fio = fios[i].split(' ')
         new_filenames.append(fio[0] + '_' + fio[1] + '_' + grades[i] + 'кл' + get_suffix() + '.pdf')
     return new_filenames
+
+
+def get_counts_of_lists():
+    file = open('количество_листов_в_работах.txt', encoding='utf-8', mode='r')
+    fios = filter(lambda x: x != '', file.read().split('\n'))
 
 
 def get_filenames_from_dir(dir):
@@ -40,8 +47,9 @@ def copy_file(old_filename, new_filename):
     print(old_filename + ' -> ' + new_filename)
     shutil.copy('old/' + old_filename, 'new/' + new_filename)
 
+
 def rename_files():
-    old_filenames = get_filenames_from_dir('old')
+    old_filenames = sorted(get_filenames_from_dir("old"), key=lambda str: str[:str.rfind('.') - 1])
     new_filenames = get_new_filenames()
 
     assert (len(old_filenames) == len(new_filenames))
@@ -62,7 +70,11 @@ def get_template():
     print(opts)
     print("prog.py -t <template>")
 
-def group(image_filenames, template):
+
+# Формирует список списков имен файлов, из списка файлов отсортированный сначала по номеру листа, а после по коду
+
+
+def group_from_by_task(image_filenames, template):
     grouped_image_filenames = []
 
     count_of_images = len(get_template())
@@ -74,35 +86,41 @@ def group(image_filenames, template):
         for index_of_image, t in enumerate(template):
             if t != '1':
                 continue
-            grouped_image_filenames[-1].append(image_filenames[index_of_image * count_of_pdfs + index_of_pdf])
+            if index_of_image % 2 == 0:
+                grouped_image_filenames[-1].append(
+                    image_filenames[index_of_image // 2 * 2 * count_of_pdfs + index_of_pdf * 2])
+            else:
+                grouped_image_filenames[-1].append(
+                    image_filenames[index_of_image // 2 * 2 * count_of_pdfs + index_of_pdf * 2 + 1])
 
     return grouped_image_filenames
 
 
-def images_to_pdf():
-    image_filenames = get_filenames_from_dir("images")
 
-    grouped_image_filenames = group(image_filenames, get_template())
+def images_by_task_to_pdf():
+    image_filenames = sorted(get_filenames_from_dir("images"), key=lambda str: str[:str.rfind('.') - 1])
+
+    grouped_image_filenames = group_from_by_task(image_filenames, get_template())
 
     pdf_filenames = get_new_filenames()
 
-    assert(len(pdf_filenames) == len(grouped_image_filenames))
+    assert (len(pdf_filenames) == len(grouped_image_filenames))
 
-    for index_of_pdf, chunk_of_image_filenames in enumerate(grouped_image_filenames):
+    dpi = 200
+
+    for index_of_pdf, group_of_image_filenames in enumerate(grouped_image_filenames):
         print('creating pdf No.', index_of_pdf + 1)
 
-        pdf = FPDF()
-        for index_of_image, image_filename in enumerate(chunk_of_image_filenames):
+        pdf = FPDF(unit="pt")
+        for index_of_image, image_filename in enumerate(group_of_image_filenames):
             pdf.add_page()
-            pdf.image('images/' + image_filename)
+            pdf.image('images/' + image_filename, x=1, y=1, w=1654 / dpi * 72, h=2339 / dpi * 72)
 
         pdf.output('pdfs/' + pdf_filenames[index_of_pdf], "F")
 
 
-
-
 if __name__ == "__main__":
-    if sys.argv.count('-r'):
+    if sys.argv.count('-p'):
+        images_by_task_to_pdf()
+    else:
         rename_files()
-    elif sys.argv.count('-p'):
-        images_to_pdf()

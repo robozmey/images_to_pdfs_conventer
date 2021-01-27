@@ -1,5 +1,5 @@
 file_fio = open('участники_тура.txt', encoding='utf-8', mode='r')
-fios = list(filter(lambda x: x != '', file_fio.read().split('\n')))
+fios = list(map(lambda x: str(('е' if i == 'ё' else i) for i in x), (lambda x: x != '', file_fio.read().split('\n'))))
 
 file_all_fio_and_email = open('участники_почта.txt', encoding='utf-8', mode='r')
 all_fios_and_email = reversed(list(filter(lambda x: x != '', file_all_fio_and_email.read().split('\n'))))

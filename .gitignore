@@ -1,0 +1,26 @@
+/email_sender/email_key.txt
+/build/
+/email_getter/участники_почта.txt
+/email_getter/участники_тура.txt
+/email_getter/участники_тура_почты.txt
+/email_getter/участники_тура_почты_just.txt
+/email_sender/attachments/
+/email_sender/attachments/Аплеснина_Вероника_11кл.pdf
+/email_sender/attachments/Приложение.txt
+/email_sender/personal_attachments/
+/email_sender/personal_attachments/Мидюкин_Владислав_9кл.pdf
+/email_sender/personal_attachments/Рачкин_Владимир_1к (1).pdf
+/email_sender/addr_to.txt
+/email_sender/text.htm
+/email_sender/subject.txt
+/renamer/классы.txt
+/renamer/фио.txt
+/renamer/old/
+/renamer/new/
+/emails.exe
+/emails.spec
+/filename.txt
+/main.exe
+/main.spec
+/name.pdf
+/sender.spec

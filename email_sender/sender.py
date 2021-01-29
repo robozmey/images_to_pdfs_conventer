@@ -118,15 +118,12 @@ if __name__ == "__main__":
     for email_fio in get_email_fio():
         assert(len(get_file_by_name(email_fio[1:])) > 0)
 
-    log = ''
-
     for email_fio in get_email_fio():
         personal_files = get_file_by_name(email_fio[1:])
 
         print(email_fio[0] + ': ' + str(personal_files))
 
-        log += (email_fio[0] + ': ' + str(personal_files))
-
         send_email(email_fio[0], subject, text, mutual_files + personal_files)
 
     input('Отправка завершена')
+

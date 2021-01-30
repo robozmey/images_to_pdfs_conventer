@@ -1,0 +1,2 @@
+python emails.py
+pause

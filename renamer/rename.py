@@ -1,12 +1,13 @@
 import os
 import shutil
 import sys, getopt
-from fpdf import FPDF
-import img2pdf
+
+def replace_yo(text):
+    return list(map(lambda line: ''.join(['е' if letter == 'ё' else letter for letter in line]), text))
 
 
 def get_opts():
-    opts, _ = getopt.getopt(sys.argv[1:], 'st:rp')
+    opts, _ = getopt.getopt(sys.argv[1:], 's:t:rp')
     return opts
 
 
@@ -20,7 +21,7 @@ def get_suffix():
 
 def get_new_filenames():
     file_fio = open('фио.txt', encoding='utf-8', mode='r')
-    fios = list(filter(lambda x: x != '', file_fio.read().split('\n')))
+    fios = replace_yo(list(filter(lambda x: x != '', file_fio.read().split('\n'))))
 
     grade_fio = open('классы.txt', encoding='utf-8', mode='r')
     grades = list(filter(lambda x: x != '', grade_fio.read().split('\n')))

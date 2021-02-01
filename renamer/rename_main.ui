@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.0">
+  <object class="ttk.Frame" id="mainwindow">
+    <property name="borderwidth">10</property>
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <layout manager="pack">
+      <property name="propagate">True</property>
+      <property name="side">top</property>
+    </layout>
+    <child>
+      <object class="ttk.Label" id="participantLabel">
+        <property name="text" translatable="yes">Имена участников</property>
+        <layout manager="grid">
+          <property name="columnspan">1</property>
+          <property name="propagate">True</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Text" id="participantText">
+        <property name="height">40</property>
+        <property name="relief">ridge</property>
+        <property name="state">normal</property>
+        <property name="undo">true</property>
+        <property name="width">50</property>
+        <layout manager="grid">
+          <property name="columnspan">2</property>
+          <property name="propagate">True</property>
+          <property name="row">1</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="gradeLabel">
+        <property name="text" translatable="yes">Классы участников</property>
+        <layout manager="grid">
+          <property name="column">3</property>
+          <property name="propagate">True</property>
+          <property name="row">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Text" id="gradeText">
+        <property name="height">40</property>
+        <property name="relief">ridge</property>
+        <property name="state">normal</property>
+        <property name="undo">true</property>
+        <property name="width">20</property>
+        <layout manager="grid">
+          <property name="column">3</property>
+          <property name="propagate">True</property>
+          <property name="row">1</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="pygubu.builder.widgets.pathchooserinput" id="namelssPath">
+        <property name="textvariable">string:nameless_path</property>
+        <property name="type">directory</property>
+        <layout manager="grid">
+          <property name="column">1</property>
+          <property name="columnspan">3</property>
+          <property name="propagate">True</property>
+          <property name="row">2</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="namelsssLabel">
+        <property name="text" translatable="yes">Директрория с безымянными</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">2</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="distinationLabel">
+        <property name="text" translatable="yes">Директория для переименованных
+</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">3</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="pygubu.builder.widgets.pathchooserinput" id="distinationPath">
+        <property name="textvariable">string:destination_path</property>
+        <property name="type">directory</property>
+        <layout manager="grid">
+          <property name="column">1</property>
+          <property name="columnspan">3</property>
+          <property name="propagate">True</property>
+          <property name="row">3</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="renameButton">
+        <property name="idtocommand">false</property>
+        <property name="text" translatable="yes">Переименовать</property>
+        <bind sequence="&lt;1&gt;" handler="rename_files" add="" />
+        <layout manager="grid">
+          <property name="column">3</property>
+          <property name="propagate">True</property>
+          <property name="row">7</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Entry" id="suffixEntry">
+        <property name="font">TkDefaultFont</property>
+        <property name="textvariable">string:suffix</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">6</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="suffixLabel">
+        <property name="text" translatable="yes">Суффикс</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">5</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="pygubu.builder.widgets.dialog" id="progressDialog">
+    <property name="height">100</property>
+    <property name="modal">false</property>
+    <property name="takefocus">false</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Progressbar" id="progressbar_1">
+        <property name="length">300</property>
+        <property name="orient">horizontal</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">1</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Text" id="text_4">
+        <property name="height">20</property>
+        <property name="insertunfocussed">hollow</property>
+        <property name="takefocus">false</property>
+        <property name="width">50</property>
+        <layout manager="grid">
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">0</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="tk.Toplevel" id="toplevel_2">
+    <property name="height">200</property>
+    <property name="width">200</property>
+    <child>
+      <object class="ttk.Frame" id="frame_4">
+        <property name="height">200</property>
+        <property name="width">200</property>
+        <layout manager="pack">
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+  <object class="tk.Toplevel" id="toplevel_3">
+    <property name="height">200</property>
+    <property name="width">200</property>
+  </object>
+</interface>
